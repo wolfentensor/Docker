@@ -3,7 +3,7 @@
 
 This repository is dedicated to running Bittensor's Subtensor node with an additional layer of security provided by gVisor. It is designed for experienced users who prioritize security in their setup. The integration of gVisor adds a robust security mechanism by sandboxing the Subtensor (Substrate) runtime environment, significantly reducing the risk surface compared to traditional container runtimes.
 
-For more information, pleaes refer to the [gVisor Documentation](https://gvisor.dev/).
+For more information, pleaes refer to the [gVisor Documentation](https://gvisor.dev/docs/).
 
 ## Prerequisites
 
