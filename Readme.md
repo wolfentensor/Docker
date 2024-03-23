@@ -23,6 +23,7 @@ The `setup.sh` script prepares your environment for running Subtensor with gViso
 - Installs gVisor (runsc).
 - Backs up the current `/etc/docker/daemon.json` to `/etc/docker/daemon.backup`.
 - Creates a new `daemon.json` with the gVisor configuration.
+- Restarts the docker daemon.
 
 Execute the script by running:
 

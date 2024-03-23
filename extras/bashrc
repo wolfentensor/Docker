@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# Shortcut function to run Docker with gVisor (secure)
+dockersec() {
+  echo "Starting container with gVisor"
+  docker run --runtime=runsc "$@"
+}
+
+# Shortcut function to run Docker containers without gVisor (insecure)
+dockerins() {
+  echo "Starting container without gVisor"
+  docker run --runtime=runc "$@"
+}

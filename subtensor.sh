@@ -1,17 +1,16 @@
 #!/usr/bin/env bash
 
 #
-# Script for running Subtensor with
-# gVisor (or not)
+# Script for running Subtensor
+# with gVisor (or not)
 #
 
 # Default values
-EXEC_TYPE="docker"
+EXEC_TYPE="secure"
 NETWORK="mainnet"
 NODE_TYPE="lite"
 RUNTIME="runsc"
 BUILD=""
-BIN_PATH="./target/release/node-subtensor"
 
 # Getting arguments from user
 while [[ $# -gt 0 ]]; do
