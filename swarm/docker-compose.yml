@@ -1,0 +1,97 @@
+version: '3.8'
+
+volumes:
+  mainnet-lite-volume:
+  mainnet-archive-volume:
+  testnet-lite-volume:
+  testnet-archive-volume:
+
+x-common-all: &common-all
+  build:
+    context: .
+    dockerfile: Dockerfile
+    target: subtensor
+  runtime: "${RUNTIME}"
+  environment:
+    - CARGO_HOME=/var/www/node-subtensor/.cargo
+  ports:
+    - target: 9944
+      published: 9944
+      protocol: tcp
+      mode: host
+    - target: 30333
+      published: 30333
+      protocol: tcp
+      mode: host
+    - target: 9933
+      published: 9933
+      protocol: tcp
+      mode: host
+  deploy:
+    restart_policy:
+      condition: on-failure
+    resources:
+      reservations:
+        cpus: '4'
+        memory: '2048M'
+      limits:
+        cpus: '6'
+        memory: '4096M'
+
+x-common-mainnet: &common-mainnet
+  <<: *common-all
+  image: opentensor/subtensor:testsec
+  volumes:
+    - mainnet-lite-volume:/tmp/blockchain
+  command:
+    - /bin/bash
+    - -c
+    - |
+      node-subtensor \
+        --base-path /tmp/blockchain \
+        --chain raw_spec.json \
+        --rpc-external --rpc-cors all \
+        --ws-external --no-mdns \
+        --ws-max-connections 10000 --in-peers 500 --out-peers 500 \
+        --bootnodes /dns/bootnode.finney.chain.opentensor.ai/tcp/30333/ws/p2p/12D3KooWRwbMb85RWnT8DSXSYMWQtuDwh4LJzndoRrTDotTR5gDC \
+        --sync warp
+
+x-common-testnet: &common-testnet
+  <<: *common-all
+  image: opentensor/subtensor:testsec
+  volumes:
+    - testnet-lite-volume:/tmp/blockchain
+  command:
+    - /bin/bash
+    - -c
+    - |
+      node-subtensor \
+        --base-path /tmp/blockchain \
+        --chain raw_testspec.json \
+        --rpc-external --rpc-cors all \
+        --ws-external --no-mdns \
+        --ws-max-connections 10000 --in-peers 500 --out-peers 500 \
+        --bootnodes /dns/bootnode.test.finney.opentensor.ai/tcp/30333/p2p/12D3KooWPM4mLcKJGtyVtkggqdG84zWrd7Rij6PGQDoijh1X86Vr \
+        --sync warp
+
+services:
+  mainnet-lite-node1:
+    <<: *common-mainnet
+    deploy:
+      replicas: 1
+      placement:
+        constraints: [ node.labels.target == node1-us-east ]
+
+  testnet-lite-node2:
+    <<: *common-testnet
+    deploy:
+      replicas: 1
+      placement:
+        constraints: [ node.labels.target == node2-us-east ]
+
+  mainnet-lite-node3:
+    <<: *common-mainnet
+    deploy:
+      replicas: 1
+      placement:
+        constraints: [ node.labels.target == node3-us-west ]
