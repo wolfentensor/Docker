@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Define the target directory on the remote system
-TARGET_DIR="/tmp/subtensec"
+TARGET_DIR="/tmp"
 
 # Function to copy current directory and execute a script on a remote node
 setup_node() {
@@ -9,10 +9,11 @@ setup_node() {
   echo "Processing node: $node"
 
   # Create the target directory on the remote node
-  ssh root@"$node" "mkdir -p $TARGET_DIR" 2>/dev/null
+  ssh root@"$node" "mkdir -p $TARGET_DIR"
+  # 2>/dev/null
 
   # Copy the current directory to the target directory on the remote node
-  ssh root@"$node" "bash cd $TARGET_DIR && git clone https://github.com/wolfentensor/Subtensor-gVisor && cd Subtensor-gVisor/swarm && ./setup.sh"
+  ssh root@"$node" "cd $TARGET_DIR && git clone https://github.com/wolfentensor/Subtensor-gVisor && cd /tmp/Subtensor-gVisor/swarm && ./setup.sh"
 
   #2>/dev/null
 
