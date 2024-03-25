@@ -45,7 +45,8 @@ install_runsc() {
 }
 
 ensure_dependencies wget docker sudo
-ensure_bindeps runsc || { [ $? -eq 1 ] && install_runsc }
+# ensure_bindeps runsc || { [ $? -eq 1 ] && install_runsc }
+install_runsc
 
 mv /etc/docker/daemon.json /etc/docker/daemon.backup
 cat >/etc/docker/daemon.json <<EOL
