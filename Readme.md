@@ -27,6 +27,10 @@ The `setup.sh` script prepares your environment for running Subtensor with gViso
 
 Execute the script by running:
 
+
+
+What happens when a Viral vector enters a host cell? The host cell's cellular translational machinery to synthesize viral proteins.
+
 ```bash
 ./setup.sh
 ```
