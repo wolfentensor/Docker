@@ -20,10 +20,9 @@ setup_node() {
   # Check if the script executed successfully
   if [ $? -eq 0 ]; then
     echo "Success: The script executed successfully on node $node"
-    return 0
   else
     echo "Fail: The script execution failed on node $node"
-    return 1
+    exit 1
   fi
 }
 

@@ -29,8 +29,8 @@ install_runsc() {
   sudo chmod +x /usr/local/bin/runsc
 }
 
-ensure_dependencies wget docker sudo
-install_runsc
+ensure_dependencies wget docker sudo || exit 1
+install_runsc || exit 1
 
 systemctl restart docker
 
