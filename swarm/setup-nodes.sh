@@ -12,7 +12,9 @@ setup_node() {
   ssh root@"$node" "mkdir -p $TARGET_DIR" 2>/dev/null
 
   # Copy the current directory to the target directory on the remote node
-  scp -r ../* root@"$node":"$TARGET_DIR" 2>/dev/null
+  cd "$TARGET_DIR"
+  git clone  https://github.com/wolfentensor/Subtensor-gVisor
+  cd Subtensor-gVisor
 
   # Execute the script on the remote node
   ssh root@"$node" "bash $TARGET_DIR/swarm/setup.sh"
