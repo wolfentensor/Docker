@@ -1,10 +1,10 @@
 #!/bin/bash
 
 # Define the target directory on the remote system
-TARGET_DIR="/root/subtensec"
+TARGET_DIR="/tmp/subtensec"
 
 # Function to copy current directory and execute a script on a remote node
-setup_nodes() {
+setup_node() {
   local node=$1
   echo "Processing node: $node"
 
@@ -12,10 +12,11 @@ setup_nodes() {
   ssh root@"$node" "mkdir -p $TARGET_DIR" 2>/dev/null
 
   # Copy the current directory to the target directory on the remote node
-  scp -r ./* root@"$node":"$TARGET_DIR" 2>/dev/null
+  scp -r ../* root@"$node":"$TARGET_DIR" 2>/dev/null
 
   # Execute the script on the remote node
-  ssh root@"$node" "bash $TARGET_DIR/setup.sh" 2>/dev/null
+  ssh root@"$node" "bash $TARGET_DIR/swarm/setup.sh"
+  #2>/dev/null
 
   # Check if the script executed successfully
   if [ $? -eq 0 ]; then
@@ -35,5 +36,5 @@ fi
 
 # Read each line in nodes.txt and process it
 while IFS= read -r node; do
-  deploy_and_execute "$node"
+  setup_node "$node"
 done < nodes.txt

@@ -11,6 +11,7 @@ NETWORK="mainnet"
 NODE_TYPE="lite"
 RUNTIME="runsc"
 BUILD=""
+DEPLOY_TYPE="swarm"
 
 # Getting arguments from user
 while [[ $# -gt 0 ]]; do
@@ -30,6 +31,11 @@ while [[ $# -gt 0 ]]; do
     -b|--build)
       BUILD="--build"
       shift # past argument
+      ;;
+    -p|--deploy)
+      DEPLOY_TYPE="$2"
+      shift
+      shift
       ;;
     -n|--network)
       NETWORK="$2"
@@ -53,6 +59,11 @@ while [[ $# -gt 0 ]]; do
 done
 
 # Verifying arguments values
+if ! [[ "$DEPLOY_TYPE" =~ ^(standalone|swarm)$ ]]; then
+    echo "Deployment type: $EXEC_TYPE"
+    exit 1
+fi
+
 if ! [[ "$EXEC_TYPE" =~ ^(secure|insecure)$ ]]; then
     echo "Exec type not expected: $EXEC_TYPE"
     exit 1

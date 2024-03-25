@@ -3,7 +3,7 @@
 # Run Subtensor (Substrate) under gVisor
 # Only supports Docker standalone mode for now.
 #
-source ../../../scripts/utils/ensure_deps.sh
+source ../extras/ensure_deps.sh
 
 
 install_runsc() {
