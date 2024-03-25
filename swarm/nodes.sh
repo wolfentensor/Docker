@@ -9,7 +9,7 @@ setup_node() {
   echo "Processing node: $node"
 
   # Create the target directory on the remote node
-  ssh root@"$node" "mkdir -p $TARGET_DIR"
+  ssh root@"$node" "rm -rf $TARGET_DIR/Subtensor-gVisor"
   # 2>/dev/null
 
   # Copy the current directory to the target directory on the remote node
